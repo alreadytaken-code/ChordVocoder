@@ -1,0 +1,24 @@
+.github/workflows/build.yml
+name: Build VST3 (Windows)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build
+
+      - name: Build
+        run: cmake --build build --config Release --target ChordVocoder_VST3
+
+      - name: Upload plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: Chord-Vocoder-VST3-Windows
+          path: build/ChordVocoder_artefacts/Release/VST3/
